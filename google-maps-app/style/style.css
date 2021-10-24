@@ -12,3 +12,16 @@ body {
     position: relative;
     width: 100vw; 
 }
+
+.title {
+    font-size: 88px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 10;
+    top: 100px;
+    left: 100px;
+    color: #333333;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-family: sans-serif;
+}
