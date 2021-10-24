@@ -221,6 +221,7 @@ function initMap() {
     ],
     { name: "Styled Map" }
   );
+  //Associate the styled map with the MapTypeId and set it to display.
 
   map = new google.maps.Map(document.getElementById("map"), {
     center: losAngeles,
@@ -229,8 +230,26 @@ function initMap() {
       mapTypeIds: ["roadmap", "hybrid", "styled_map"],
     },
   });
-  //Associate the styled map with the MapTypeId and set it to display.
-
   map.mapTypes.set("styled_map", styledMapType);
   map.setMapTypeId("styled_map");
+  createMarker();
 }
+
+const createMarker = () => {
+  let marker = new google.maps.Marker({
+    map,
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    position: { lat: 34.06338, lng: -118.35808 },
+  });
+
+  marker.addListener("click", toggleBounce);
+
+  function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
+};
