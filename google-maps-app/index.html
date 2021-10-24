@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Google Maps Store Locator 📍</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style/style.css">
-    </head>
-    <body>
-        <div class="container home-page">
-        </div>
-        <script src="js/index.js" async defer></script>
-    </body>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Google Maps Store Locator 📍</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body>
+    
+    <div id="map"></div>
+    <!-- The div to hold the map -->
+    <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyADVTfC_BV45-4ShxRwBMP4_fPoRU0U02o&callback=initMap"></script>
+    <script src="js/index.js" async defer></script>
+</body>
+
 </html>
