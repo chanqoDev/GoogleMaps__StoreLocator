@@ -219,7 +219,7 @@ function initMap() {
         ],
       },
     ],
-    { name: "RetroMap🪖" }
+    { name: "Retro🪖" }
   );
   //Associate the styled map with the MapTypeId and set it to display.
 
