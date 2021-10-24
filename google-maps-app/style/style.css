@@ -14,14 +14,50 @@ body {
 }
 
 .title {
-    font-size: 88px;
+    font-size: 68px;
     font-weight: bold;
     position: absolute;
     z-index: 10;
-    top: 100px;
-    left: 100px;
-    color: #333333;
+    top: 80px;
+    left: 80px;
+    color: rgb(39, 32, 32);
     text-transform: uppercase;
     font-weight: bold;
     font-family: sans-serif;
+}
+ 
+.search-container {
+    position: absolute;
+    width: 400px; 
+    height: 60px;
+    left: 100px;
+    top: 230px;
+    background: rgb(39, 32, 32);
+    border-radius: 30px;
+    z-index: 10;
+}
+
+.search {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.search input {
+    flex-grow: 1;
+    font-size: 25px;
+    background-color: transparent;
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white; 
+}
+.search i {
+    color: white;
+    font-size: 25px;
+}
+
+.search input{
+    outline: none;
 }
