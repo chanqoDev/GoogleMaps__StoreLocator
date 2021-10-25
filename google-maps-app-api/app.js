@@ -15,21 +15,38 @@ mongoose.connect(
 app.use(express.json({ limit: "50mb" }));
 
 app.post("/api/stores", (req, res) => {
-  let dbStores = req.body;
-  console.log(dbStores);
-  var store = new Store({
-    storeName: "Test",
-    phoneNumber: "9493840248",
-    location: {
-      type: "Point",
-      coordinates: [-118.376354, 34.063584],
-    },
+  let dbStores = [];
+  let stores = req.body;
+  stores.forEach((store) => {
+    dbStores.push({
+      storeName: store.name,
+      phoneNumber: store.phoneNumber,
+      address: store.address,
+      openStatusText: store.openStatusText,
+      addressLines: store.addressLines,
+      location: {
+        type: "Point",
+        coordinates: [store.coordinates.longitude, store.coordinates.latitude],
+      },
+    });
   });
-  store.save();
-  res.send("You have posted");
+
+  Store.create(dbStores, (err, stores) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(stores);
+    }
+  });
 });
 
 app.get("/", (req, res) => res.send("Hello World!"));
+
+app.delete("/api/stores", (req, res) => {
+  Store.deleteMany({}, (err) => {
+    res.status(200).send(err);
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
