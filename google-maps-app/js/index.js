@@ -5,7 +5,32 @@ function initMap() {
     lat: 34.06338,
     lng: -118.35808,
   };
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: losAngeles,
+    zoom: 8,
+    mapTypeControlOptions: {
+      mapTypeIds: ["roadmap", "hybrid", "styled_map"],
+    },
+  });
 
+  // mark the location
+  marker = new google.maps.Marker({
+    map,
+    draggable: true,
+    position: losAngeles,
+    animation: google.maps.Animation.DROP,
+  });
+
+  // bounce when click
+  marker.addListener("click", toggleBounce);
+  function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
+  //Associate the styled map with the MapTypeId and set it to display.
   const styledMapType = new google.maps.StyledMapType(
     [
       {
@@ -226,62 +251,34 @@ function initMap() {
       name: "Retro🪖",
     }
   );
-  //Associate the styled map with the MapTypeId and set it to display.
 
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: losAngeles,
-    zoom: 8,
-    mapTypeControlOptions: {
-      mapTypeIds: ["roadmap", "hybrid", "styled_map"],
-    },
-  });
-  getStores();
-  createMarker();
   map.mapTypes.set("styled_map", styledMapType);
   map.setMapTypeId("styled_map");
 }
 
-const getStores = () => {
-  const API_URL = "http://localhost:3000/api/stores";
-  fetch(API_URL)
-    .then((response) => {
-      if (response.status == 200) {
-        return response.json();
-      } else {
-        throw new Error(response.status);
-      }
-    })
-    .then((data) => {
-      searchLocationsNear(data);
-    });
-};
+// const getStores = () => {
+//   const API_URL = "http://localhost:3000/api/stores";
+//   fetch(API_URL)
+//     .then((response) => {
+//       if (response.status == 200) {
+//         return response.json();
+//       } else {
+//         throw new Error(response.status);
+//       }
+//     })
+//     .then((data) => {
+//       searchLocationsNear(data);
+//     });
+// };
 
-const searchLocationsNear = (stores) => {
-  stores.forEach((store, index) => {
-    let latlng = new google.maps.LatLng(
-      store.location.coordinates[1],
-      store.location.coordinates[0]
-    );
-    let name = storeName;
-    let address = store.addressLines[0];
-    createMarker(latlng, name, address);
-  });
-};
-const createMarker = (latlng, name, address) => {
-  let marker = new google.maps.Marker({
-    draggable: true,
-    animation: google.maps.Animation.DROP,
-    position: latlng,
-    map: map,
-  });
-
-  marker.addListener("click", toggleBounce);
-
-  function toggleBounce() {
-    if (marker.getAnimation() !== null) {
-      marker.setAnimation(null);
-    } else {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
-  }
-};
+// const searchLocationsNear = (stores) => {
+//   stores.forEach((store, index) => {
+//     let latlng = new google.maps.LatLng(
+//       store.location.coordinates[1],
+//       store.location.coordinates[0]
+//     );
+//     let name = store.StoreName;
+//     let address = store.addressLines[0];
+//
+//   });
+// };
