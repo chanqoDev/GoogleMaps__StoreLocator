@@ -1,7 +1,10 @@
 let map;
 
 function initMap() {
-  const losAngeles = { lat: 34.06338, lng: -118.35808 };
+  const losAngeles = {
+    lat: 34.06338,
+    lng: -118.35808,
+  };
 
   const styledMapType = new google.maps.StyledMapType(
     [
@@ -219,7 +222,9 @@ function initMap() {
         ],
       },
     ],
-    { name: "Retro🪖" }
+    {
+      name: "Retro🪖",
+    }
   );
   //Associate the styled map with the MapTypeId and set it to display.
 
@@ -230,17 +235,44 @@ function initMap() {
       mapTypeIds: ["roadmap", "hybrid", "styled_map"],
     },
   });
+  getStores();
+  createMarker();
   map.mapTypes.set("styled_map", styledMapType);
   map.setMapTypeId("styled_map");
-  createMarker();
 }
 
-const createMarker = () => {
+const getStores = () => {
+  const API_URL = "http://localhost:3000/api/stores";
+  fetch(API_URL)
+    .then((response) => {
+      if (response.status == 200) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+    .then((data) => {
+      searchLocationsNear(data);
+    });
+};
+
+const searchLocationsNear = (stores) => {
+  stores.forEach((store, index) => {
+    let latlng = new google.maps.LatLng(
+      store.location.coordinates[1],
+      store.location.coordinates[0]
+    );
+    let name = storeName;
+    let address = store.addressLines[0];
+    createMarker(latlng, name, address);
+  });
+};
+const createMarker = (latlng, name, address) => {
   let marker = new google.maps.Marker({
-    map,
     draggable: true,
     animation: google.maps.Animation.DROP,
-    position: { lat: 34.06338, lng: -118.35808 },
+    position: latlng,
+    map: map,
   });
 
   marker.addListener("click", toggleBounce);
