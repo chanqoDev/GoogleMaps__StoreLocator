@@ -1,4 +1,5 @@
 let map;
+let infoWindow;
 
 function initMap() {
   const losAngeles = {
@@ -9,6 +10,7 @@ function initMap() {
     center: losAngeles,
     zoom: 8,
   });
+  const infowindow = new google.maps.InfoWindow();
   getStores();
 }
 
@@ -27,15 +29,8 @@ const getStores = () => {
     });
 };
 
-const createMaker = (latlng, name, address) => {
-  let marker = new google.maps.Marker({
-    position: latlng,
-    map: map,
-  });
-};
-
 const searchLocationsNear = (stores) => {
-  let bounds = new google.maps.LatLngBounds();
+  var bounds = new google.maps.LatLngBounds();
 
   stores.forEach((store, index) => {
     let latlng = new google.maps.LatLng(
@@ -44,10 +39,60 @@ const searchLocationsNear = (stores) => {
     );
     let name = store.storeName;
     let address = store.addressLines[0];
+    let phone = store.phoneNumber;
+    let openStatusText = store.openStatusText;
     bounds.extend(latlng);
-    createMaker(latlng, name, address);
-    map.fitBounds(bounds);
+    createMaker(latlng, name, address, openStatusText, phone, index + 1);
   });
+  map.fitBounds(bounds);
+};
+
+const createMaker = (
+  latlng,
+  name,
+  address,
+  openStatusText,
+  phone,
+  storeNumber
+) => {
+  let html = `
+  <div class="store-info-window">
+  <div class="store-info-name">
+      ${name}
+  </div>
+    <div class="store-info-open-status">
+    ${openStatusText}
+    </div>
+    <div class="store-info-address">
+    <span>
+    ${address}
+    </span> 
+   </div> 
+   <div class="store-info-phone">
+   <span>
+   ${phone}
+   </span> 
+   </div>
+  </div> 
+  `;
+  const infowindow = new google.maps.InfoWindow({
+    content: html,
+  });
+
+  let marker = new google.maps.Marker({
+    map: map,
+    position: latlng,
+    label: `${storeNumber}`,
+  });
+  marker.addListener("click", () => {
+    infowindow.open({
+      anchor: marker,
+      map,
+      shouldFocus: false,
+    });
+  });
+  // infoWindow.setContent(html);
+  // infoWindow.open(map, marker);
 };
 
 // map.mapTypes.set("styled_map", styledMapType);
