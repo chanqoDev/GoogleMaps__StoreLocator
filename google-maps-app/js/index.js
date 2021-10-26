@@ -35,6 +35,8 @@ const createMaker = (latlng, name, address) => {
 };
 
 const searchLocationsNear = (stores) => {
+  let bounds = new google.maps.LatLngBounds();
+
   stores.forEach((store, index) => {
     let latlng = new google.maps.LatLng(
       store.location.coordinates[1],
@@ -42,7 +44,9 @@ const searchLocationsNear = (stores) => {
     );
     let name = store.storeName;
     let address = store.addressLines[0];
+    bounds.extend(latlng);
     createMaker(latlng, name, address);
+    map.fitBounds(bounds);
   });
 };
 
