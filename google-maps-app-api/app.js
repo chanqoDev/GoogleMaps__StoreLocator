@@ -45,6 +45,7 @@ app.post("/api/stores", (req, res) => {
   });
 });
 
+// setting up get api endpoint
 app.get("/api/stores", (req, res) => {
   Store.find({}, (err, stores) => {
     if (err) {

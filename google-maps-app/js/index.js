@@ -5,31 +5,6 @@ function initMap() {
     lat: 34.06338,
     lng: -118.35808,
   };
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: losAngeles,
-    zoom: 8,
-    mapTypeControlOptions: {
-      mapTypeIds: ["roadmap", "hybrid", "styled_map"],
-    },
-  });
-
-  // mark the location
-  marker = new google.maps.Marker({
-    map,
-    draggable: true,
-    position: losAngeles,
-    animation: google.maps.Animation.DROP,
-  });
-
-  // bounce when click
-  marker.addListener("click", toggleBounce);
-  function toggleBounce() {
-    if (marker.getAnimation() !== null) {
-      marker.setAnimation(null);
-    } else {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
-  }
   //Associate the styled map with the MapTypeId and set it to display.
   const styledMapType = new google.maps.StyledMapType(
     [
@@ -252,33 +227,50 @@ function initMap() {
     }
   );
 
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: losAngeles,
+    zoom: 8,
+    fullscreenControl: false,
+    streetViewControl: false,
+    mapTypeControlOptions: {
+      mapTypeIds: ["roadmap", "hybrid", "styled_map"],
+    },
+  });
+
   map.mapTypes.set("styled_map", styledMapType);
   map.setMapTypeId("styled_map");
+  const createMake = () => {
+    marker = new google.maps.Marker({
+      draggable: true,
+      position: { lat: 34.06338, lng: -118.35808 },
+      animation: google.maps.Animation.DROP,
+      map,
+    });
+  };
+  createMake();
+  getStores();
+  marker.addListener("click", toggleBounce);
+
+  function toggleBounce() {
+    if (marker.getAnimation() !== null) {
+      marker.setAnimation(null);
+    } else {
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
 }
 
-// const getStores = () => {
-//   const API_URL = "http://localhost:3000/api/stores";
-//   fetch(API_URL)
-//     .then((response) => {
-//       if (response.status == 200) {
-//         return response.json();
-//       } else {
-//         throw new Error(response.status);
-//       }
-//     })
-//     .then((data) => {
-//       searchLocationsNear(data);
-//     });
-// };
-
-// const searchLocationsNear = (stores) => {
-//   stores.forEach((store, index) => {
-//     let latlng = new google.maps.LatLng(
-//       store.location.coordinates[1],
-//       store.location.coordinates[0]
-//     );
-//     let name = store.StoreName;
-//     let address = store.addressLines[0];
-//
-//   });
-// };
+const getStores = () => {
+  const API_URL = "http://localhost:3000/api/stores";
+  fetch(API_URL)
+    .then((response) => {
+      if (response.status == 200) {
+        return response.json();
+      } else {
+        throw new Error(response.status);
+      }
+    })
+    .then((data) => {
+      console.log(data);
+    });
+};
