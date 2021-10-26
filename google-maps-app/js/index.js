@@ -61,17 +61,21 @@ const createMaker = (
       ${name}
   </div>
     <div class="store-info-open-status">
-    ${openStatusText}
+      ${openStatusText}
     </div>
     <div class="store-info-address">
-    <span>
-    ${address}
-    </span> 
-   </div> 
+      <div class="icon"> 
+        <i class="fas fa-location-arrow"></i>
+        </div> 
+        <span>${address}</span>
+    </div> 
+  
    <div class="store-info-phone">
+   <div class="icon">
+     <i class="fas fa-phone-alt"></i>
+   </div> 
    <span>
-   ${phone}
-   </span> 
+    <a href="tel:${phone}">${phone}</span> 
    </div>
   </div> 
   `;
