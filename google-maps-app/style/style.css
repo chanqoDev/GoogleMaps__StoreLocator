@@ -70,6 +70,7 @@ body {
     box-sizing: border-box;
     display: flex;
     overflow-y: hidden;  
+     
 }
 .store-list {
     flex-grow: 1;
@@ -80,9 +81,11 @@ body {
     display: flex;
     border-bottom: 1px solid #979797;
     cursor: pointer;
+    
 }
 .store-info-container {
     flex-grow: 1;
+
 }
 .store-address {
     display: block; 
@@ -90,11 +93,21 @@ body {
     color: #514c4c; 
     margin-top: 30px;
     margin-left: 20px;
+    margin-right: 0;
+}
+.store-address span {
+    display: block;
 }
 .store-number-container {
     min-width: 300px;
     font-size: 18px;
-    padding: 8px;;
+    top: 20px;
+    margin-left: 280px;
+    margin-right: 0px;
+    position: relative;
+    height: 0px;
+    display: flex; 
+    align-items: center;
 }
 .store-number {
     width: 30px;
@@ -104,9 +117,7 @@ body {
     color:white;
     display: flex;
     justify-content: center;
-    position: absolute;
     align-items: center;
-    margin-left: 260px;
 }
 
 .store-phone-number {
@@ -114,7 +125,36 @@ body {
     margin-top: 15px;
     margin-bottom: 15px;
     padding-left: 23px;
+
 }
+.store-container-background {
+    flex-grow: 1;
+    display: flex;
+    padding-left: 8px;
+    padding-right: 8px; 
+    margin-bottom: 12px;
+    margin-top: 12px;
+    border-radius: 18px;
+    transition: all 0.2s ease-in-out; 
+    cursor: pointer;
+}
+.store-container-background:hover {
+    flex-grow: 1;
+    display: flex;
+    padding-left: 8px;
+    padding-right: 8px; 
+    margin-bottom: 12px;
+    margin-top: 12px;
+    background-color: #cccccc87;
+    border-radius: 18px;
+}
+
+
+
+
+
+
+/* toggles store info when Marker is clicked */
 
 .store-info-name {
     font-size: 24px;
@@ -128,8 +168,6 @@ body {
     display:flex;
     align-items: center;
 }
-
-
 .store-info-address, .store-info-phone {
     margin-top: 8px; 
     align-items: center;
