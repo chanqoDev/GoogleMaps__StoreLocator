@@ -1,5 +1,6 @@
 let map;
 let infoWindow;
+var markers = [];
 
 function initMap() {
   const losAngeles = {
@@ -27,8 +28,18 @@ const getStores = () => {
     .then((data) => {
       searchLocationsNear(data);
       setStoresList(data);
+      setOnClickListener();
     });
 };
+const setOnClickListener = () => {
+  let storeElements = document.querySelectorAll(".store-container");
+  storeElements.forEach((elem, index) => {
+    elem.addEventListener("click", () => {
+      google.maps.event.trigger(markers[index], "click");
+    });
+  });
+};
+
 const setStoresList = (stores) => {
   let storesHtml = "";
   stores.forEach((store, index) => {
@@ -116,15 +127,11 @@ const createMaker = (
     position: latlng,
     label: `${storeNumber}`,
   });
-  marker.addListener("click", () => {
-    infowindow.open({
-      anchor: marker,
-      map,
-      shouldFocus: false,
-    });
+  google.maps.event.addListener(marker, "click", function () {
+    infowindow.setContent(html);
+    infowindow.open(map, marker);
   });
-  // infoWindow.setContent(html);
-  // infoWindow.open(map, marker);
+  markers.push(marker);
 };
 
 // map.mapTypes.set("styled_map", styledMapType);
