@@ -1,17 +1,21 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
+const axios = require("axios");
 const port = 3000;
 const Store = require("./api/models/store");
 
 // allow to retrieve list of store from API
+
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Origin", "*");
   next();
 });
 
 mongoose.connect(
-  "mongodb+srv://chanqo_dev:pCeo4OvKIAAbOwmW@cluster0.3njeu.mongodb.net/cluster0?retryWrites=true&w=majority",
+  // "mongodb+srv://chanqo_dev:pCeo4OvKIAAbOwmW@cluster0.3njeu.mongodb.net/cluster0?retryWrites=true&w=majority",
+  "mongodb+srv://chanqo_dev:pCeo4OvKIAAbOwmW@cluster0.3njeu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -48,6 +52,23 @@ app.post("/api/stores", (req, res) => {
 
 // setting up get api endpoint
 app.get("/api/stores", (req, res) => {
+  const zipCode = req.query.zip_code;
+
+  const googleMapsURL = "https://maps.googleapis.com/maps/api/geocode/json";
+  axios
+    .get(googleMapsURL, {
+      params: {
+        address: zipCode,
+        key: "AIzaSyADVTfC_BV45-4ShxRwBMP4_fPoRU0U02o",
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
   Store.find({}, (err, stores) => {
     if (err) {
       res.status(500).send(err);
