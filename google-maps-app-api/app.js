@@ -4,6 +4,9 @@ const app = express();
 const axios = require("axios");
 const port = 3000;
 const Store = require("./api/models/store");
+const GoogleMapsService = require("./api/services/googleMapsService");
+const googleMapsService = new GoogleMapsService(); // create an instance of the google maps service
+require("dotenv").config();
 
 // allow to retrieve list of store from API
 
@@ -53,40 +56,32 @@ app.post("/api/stores", (req, res) => {
 // setting up get api endpoint
 app.get("/api/stores", (req, res) => {
   const zipCode = req.query.zip_code;
-  const googleMapsURL = "https://maps.googleapis.com/maps/api/geocode/json";
-  axios
-    .get(googleMapsURL, {
-      params: {
-        address: zipCode,
-        key: "AIzaSyADVTfC_BV45-4ShxRwBMP4_fPoRU0U02o",
-      },
-    })
-    .then((response) => {
-      const data = response.data;
-      const coordinates = [
-        data.results[0].geometry.location.lng,
-        data.results[0].geometry.location.lat,
-      ];
-      Store.find({
-        location: {
-          $near: {
-            $geometry: {
-              type: "Point",
-              coordinates: coordinates,
+  googleMapsService
+    .getCoordinates(zipCode)
+    .then((coordinates) => {
+      Store.find(
+        {
+          location: {
+            $near: {
+              $maxDistance: 3218,
+              $geometry: {
+                type: "Point",
+                coordinates: coordinates,
+              },
             },
-            $maxDistance: 3218,
           },
         },
-      }).then((stores) => {
-        res.status(200).send(stores);
-      });
+        (err, stores) => {
+          if (err) {
+            res.status(500).send(err);
+          } else {
+            res.status(200).send(stores);
+          }
+        }
+      );
     })
     .catch((error) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(200).send(stores);
-      }
+      console.log(error);
     });
 });
 
