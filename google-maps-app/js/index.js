@@ -12,12 +12,22 @@ function initMap() {
     zoom: 8,
   });
 
-  const infowindow = new google.maps.InfoWindow();
-  getStores();
+  infoWindow = new google.maps.InfoWindow();
 }
+const onEnter = (e) => {
+  if (e.keyCode === "enter") {
+    getStores();
+  }
+};
 
 const getStores = () => {
+  const zipCode = document.getElementById("zip-code").value;
+  if (!zipCode) {
+    return;
+  }
+
   const API_URL = "http://localhost:3000/api/stores";
+  const fullUrl = `${API_URL}?zipCode=${zipCode}`;
   fetch(API_URL)
     .then((response) => {
       if (response.status == 200) {
@@ -27,11 +37,21 @@ const getStores = () => {
       }
     })
     .then((data) => {
+      clearLocation();
       searchLocationsNear(data);
       setStoresList(data);
       setOnClickListener();
     });
 };
+
+const clearLocation = () => {
+  infoWindow.close();
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  markers.length = 0;
+};
+
 const setOnClickListener = () => {
   let storeElements = document.querySelectorAll(".store-container");
   storeElements.forEach((elem, index) => {
