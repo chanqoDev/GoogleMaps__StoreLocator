@@ -15,10 +15,10 @@ app.use(function (req, res, next) {
 mongoose.connect(
   "mongodb+srv://chanqo_dev:pCeo4OvKIAAbOwmW@cluster0.3njeu.mongodb.net/cluster0?retryWrites=true&w=majority",
   // "mongodb+srv://chanqo_dev:pCeo4OvKIAAbOwmW@cluster0.3njeu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   }
 );
 // body parser middleware has been deprecated!
@@ -62,19 +62,32 @@ app.get("/api/stores", (req, res) => {
       },
     })
     .then((response) => {
-      console.log(response.data);
+      const data = response.data;
+      const coordinates = [
+        data.results[0].geometry.location.lng,
+        data.results[0].geometry.location.lat,
+      ];
+      Store.find({
+        location: {
+          $near: {
+            $geometry: {
+              type: "Point",
+              coordinates: coordinates,
+            },
+            $maxDistance: 3218,
+          },
+        },
+      }).then((stores) => {
+        res.status(200).send(stores);
+      });
     })
     .catch((error) => {
-      console.log(error);
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(stores);
+      }
     });
-
-  Store.find({}, (err, stores) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(200).send(stores);
-    }
-  });
 });
 
 app.delete("/api/stores", (req, res) => {
