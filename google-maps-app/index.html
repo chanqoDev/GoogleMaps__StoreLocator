@@ -14,22 +14,25 @@
 </head>
 
 <body>
-    <div class="title">Store Locator</div>
-    <div class="search-container">
-        <div class="search">
-            <input id="zip-code" type="text" onkeyup="onEnter(event)" placeholder="Enter zip" /> 
-            <i class="fas fa-search-location" onclick="getStores()"></i>
-        </div>
-    </div>
-    <div class="stores-list-container">
-        <div class="stores-list">
-            <div class="intro">
-                <span class='enter-zip'>Enter zip code </span>
-                <span class="find-stores">Find Stores near You! </span>
+    <div class="container home-page">
+        <div class="title">Store Locator</div>
+        <div class="search-container">
+            <div class="search">
+                <input name="zip-code" id="zip-code-input" type="text" onkeyup="onEnter(event)" placeholder="Enter zip"/>
+                <i onclick="getStores()" class="fas fa-search fa-flip-horizontal"></i>
             </div>
         </div>
+        <div class="stores-list-container">
+            <div class="stores-list">
+                <div class="intro">
+                    <span class="enter-zip">Enter zip code</span>
+                    <span class="find-stores">Find stores near you</span>
+                </div>
+            </div>
+        </div>
+        <div id="map"></div>
+        
     </div>
-    <div id="map"></div>
     <!-- The div to hold the styled map -->
     <script src="js/index.js" async defer></script>
     <script async
