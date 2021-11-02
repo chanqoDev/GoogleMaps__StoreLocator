@@ -15,7 +15,7 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow();
 }
 const onEnter = (e) => {
-  if (e.keyCode === "enter") {
+  if (e.key === "enter") {
     getStores();
   }
 };
@@ -37,10 +37,15 @@ const getStores = () => {
       }
     })
     .then((data) => {
-      clearLocation();
-      searchLocationsNear(data);
-      setStoresList(data);
-      setOnClickListener();
+      if (data.length > 0) {
+        clearLocation();
+        setStoresList(data);
+        searchLocationsNear(data);
+        setOnClickListener();
+      } else {
+        clearLocation();
+        noStoresFound();
+      }
     });
 };
 
@@ -50,6 +55,15 @@ const clearLocation = () => {
     markers[i].setMap(null);
   }
   markers.length = 0;
+};
+
+const noStoresFound = () => {
+  const html = `
+  <div class="no-stores-found">
+    <h2>No stores found</h2>
+  </div>
+  `;
+  document.querySelector(".stores-list").innerHTML = html;
 };
 
 const setOnClickListener = () => {

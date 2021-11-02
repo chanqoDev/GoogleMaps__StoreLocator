@@ -167,7 +167,14 @@ body {
     font-size: 20px;
 }
 
-
+.no-stores-found {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #154c4c;
+    font-size: 20px;
+}
 
 /* toggles store info when Marker is clicked */
 
