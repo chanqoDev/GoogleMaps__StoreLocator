@@ -20,6 +20,7 @@ body {
     top: 100px;
     left: 100px;
 }
+
  
 .search-container {
     width: 400px;
@@ -70,8 +71,13 @@ body {
     box-sizing: border-box;
     display: flex;
     overflow-y: scroll;
-    padding-bottom: 30px;
+    justify-content: center
 }
+.enter-zip {
+    color: #514c4c; 
+    font-size: 22px;
+}
+
 .store-list {
     flex-grow: 1;
     padding-left: 20px;
@@ -149,8 +155,17 @@ body {
     border-radius: 18px;
 }
 
-
-
+.intro{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.find-stores {
+    color: #1985A1;
+    font-size: 20px;
+}
 
 
 

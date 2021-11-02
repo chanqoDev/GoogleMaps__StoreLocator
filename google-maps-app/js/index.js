@@ -9,7 +9,7 @@ function initMap() {
   };
   map = new google.maps.Map(document.getElementById("map"), {
     center: losAngeles,
-    zoom: 8,
+    zoom: 11,
   });
 
   infoWindow = new google.maps.InfoWindow();
