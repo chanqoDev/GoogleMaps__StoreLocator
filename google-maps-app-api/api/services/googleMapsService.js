@@ -22,7 +22,6 @@ class GoogleMaps {
       .catch((error) => {
         throw new Error(error);
       });
-
     return coordinates;
   }
 }

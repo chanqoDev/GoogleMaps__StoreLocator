@@ -1,14 +1,13 @@
 const mongoose = require("mongoose");
+
 const storeSchema = mongoose.Schema({
+  _id: mongoose.Schema.Types.ObjectId,
   storeName: String,
   phoneNumber: String,
-  address: {},
-  openStatusText: String,
-  addressLines: Array,
   location: {
     type: {
-      type: String, // Don't do `{ location: { type: String } }`
-      enum: ["Point"], // 'location.type' must be 'Point'
+      type: String,
+      enum: ["Point"],
       required: true,
     },
     coordinates: {
@@ -16,6 +15,9 @@ const storeSchema = mongoose.Schema({
       required: true,
     },
   },
+  address: {},
+  openStatustext: String,
+  addressLines: Array,
 });
 
 storeSchema.index({ location: "2dsphere" }, { sparse: true });
