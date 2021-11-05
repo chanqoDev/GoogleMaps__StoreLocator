@@ -1,3 +1,7 @@
+## TO RUN 
+ > install Nodes and run NODE App.js
+ > RUN app local host port 3000 
+
 ### Technologies used for this project
 
 - Google Maps Javascript API/Geocoding API
